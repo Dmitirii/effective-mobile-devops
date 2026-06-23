@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    container_name: effective-mobile-backend
+    networks:
+      - app-net
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: effective-mobile-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - app-net
+    depends_on:
+      - backend
+
+networks:
+  app-net:
+    driver: bridge
